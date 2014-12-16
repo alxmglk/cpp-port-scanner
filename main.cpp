@@ -28,6 +28,27 @@ BOOL isPortOpen(const char* host, const u_short port)
 	return TRUE; // port is open
 }
 
+void scan(const char* host, const int port)
+{
+	BOOL open = isPortOpen(host, port);
+	if (open)
+	{
+		printf("%d: OPEN\n", port);
+	}
+	else
+	{
+		printf("%d: CLOSED\n", port);
+	}
+}
+
+void scan(const char* host, const int start, const int end)
+{
+	for (int i = start; i <= end; ++i)
+	{
+		scan(host, i);
+	}
+}
+
 int main()
 {
 	// Initialize socket library.
@@ -38,18 +59,10 @@ int main()
 		return 1;
 	}
 
-	for (int i = 0; i < 100; ++i)
-	{
-		BOOL open = isPortOpen("127.0.0.1", i);
-		if (open)
-		{
-			printf("%s: OPEN", i);
-		}
-		else
-		{
-			printf("%s: CLOSED", i);
-		}
-	}
+	const char* host = "127.0.0.1";
+
+	scan(host, 80); // scan single port
+	scan(host, 1433, 1440); // scan ports in range
 
 	// Release resources used by socket library.
 	WSACleanup();
