@@ -43,6 +43,7 @@ void scan(const char* host, const int port)
 
 void scan(const char* host, const int start, const int end)
 {
+	#pragma omp parallel for
 	for (int i = start; i <= end; ++i)
 	{
 		scan(host, i);
