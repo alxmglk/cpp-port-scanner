@@ -7,9 +7,10 @@ BOOL isPortOpen(const char* host, const u_short port)
 	SOCKET socketId;
 
 	sockaddr_in address;
+	
 	address.sin_family = AF_INET; // AF_INET == IPv4
 	address.sin_port = htons(port); // convert to "network" representation
-	address.sin_addr.s_addr = inet_addr(host); // convert to "network" representation (in this case from "string" to "long")
+	inet_pton(AF_INET, host, &(address.sin_addr)); // convert to "network" representation (in this case from "string" to "ulong") and store it in address.sin_addr
 
 	socketId = socket(AF_INET, SOCK_STREAM, 0); // try to create socket
 	if (socketId < 0)
